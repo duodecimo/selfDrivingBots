@@ -3,7 +3,6 @@
 const char* ssid = "PKVIR12AB";
 const char* password = "5852696300";
  
-int ledPin = 13;
 WiFiServer server(80);
  
 void setup() {
@@ -62,11 +61,19 @@ void loop() {
   // Match the request
  
   int value = LOW;
-  if (request.indexOf("/LED=ON") != -1) {
+  if (request.indexOf("/FOWARD") != -1) {
     digitalWrite(LED_BUILTIN, LOW);
     value = HIGH;
   } 
-  if (request.indexOf("/LED=OFF") != -1){
+  if (request.indexOf("/BACK") != -1) {
+    digitalWrite(LED_BUILTIN, LOW);
+    value = HIGH;
+  } 
+  if (request.indexOf("/LEFT") != -1) {
+    digitalWrite(LED_BUILTIN, LOW);
+    value = HIGH;
+  } 
+  if (request.indexOf("/RIGHT") != -1){
     digitalWrite(LED_BUILTIN, HIGH);
     value = LOW;
   }
