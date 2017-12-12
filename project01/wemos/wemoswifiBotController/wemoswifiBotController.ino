@@ -1,5 +1,11 @@
 #include <ESP8266WiFi.h>
- 
+
+// headers
+void foward();
+void back();
+void left();
+void right();
+
 const char* ssid = "PKVIR12AB";
 const char* password = "5852696300";
 int value;
@@ -28,9 +34,9 @@ void setup()
   pinMode(enA, OUTPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
-  pinMode(enB, OUTPUT);
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
+  pinMode(enB, OUTPUT);
 
   Serial.begin(115200);
   delay(5000);
@@ -139,19 +145,19 @@ void loop() {
 
 // motor control
 
-foward() {
+void foward() {
   //Gira o Motor A no sentido horario
   analogWrite(enA, 450);// PWM possible range 0~900
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   //Gira o Motor B no sentido anti-horario
-  analogWrite(enA, 450);// PWM possible range 0~900
+  analogWrite(enB, 450);// PWM possible range 0~900
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   delay(50);
 }
 
-back() {
+void back() {
   // lets make a stop for a while
   /*
   //Gira o Motor A no sentido anti-horario
@@ -159,7 +165,7 @@ back() {
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   //Gira o Motor B no sentido horario
-  analogWrite(enA, 450);// PWM possible range 0~900
+  analogWrite(enB, 450);// PWM possible range 0~900
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
   delay(50);
@@ -169,30 +175,30 @@ back() {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, HIGH);
   //para o Motor B
-  analogWrite(enA, 450);// PWM possible range 0~900
+  analogWrite(enB, 450);// PWM possible range 0~900
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, HIGH);
 }
 
-left() {
+void right() {
   //Gira o Motor A no sentido anti-horario
   analogWrite(enA, 450);// PWM possible range 0~900
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   //Gira o Motor B no sentido anti-horario
-  analogWrite(enA, 450);// PWM possible range 0~900
+  analogWrite(enB, 450);// PWM possible range 0~900
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   delay(50);
 }
 
-right() {
+void left() {
   //Gira o Motor A no sentido horario
   analogWrite(enA, 450);// PWM possible range 0~900
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   //Gira o Motor B no sentido horario
-  analogWrite(enA, 450);// PWM possible range 0~900
+  analogWrite(enB, 450);// PWM possible range 0~900
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
   delay(50);
