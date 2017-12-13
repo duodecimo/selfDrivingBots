@@ -42,7 +42,7 @@ is_capturing = False
 #lets make sure the path exists!
 if not os.access(args.path, os.F_OK):
   os.makedirs(args.path)
-commands = [up, down, left, right, stop]
+commands = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'STOP']
 
 while True:
     bytes += stream.read(1024)
@@ -57,7 +57,6 @@ while True:
       img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
         
       if is_capturing:
-        # check if it is time to save frame to a file
         elapsed_time = time.time() - start_time
         # save image each 1 second
         if elapsed_time > 1 and command in commands:
@@ -69,9 +68,9 @@ while True:
           #restart the timer
           start_time = time.time()
         
-      cv2.putText(img, command, (230, 50), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+      cv2.putText(img, command, (200, 500), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
       if is_capturing:
-        cv2.putText(img, 'Capturing', (230, 450), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+        cv2.putText(img, 'Capturing', (600, 500), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
 
       cv2.imshow('img',img)
       retval = np.int16(cv2.waitKey(1))
@@ -94,13 +93,13 @@ while True:
          print('RIGH')
          placeCall('RIGHT')
          command = 'RIGHT'
-        elif retval == 's' or retval == 'S':
+        elif chr(retval) == 's' or chr(retval) == 'S':
          print('STOP')
          placeCall('STOP')
          command = 'STOP'
-        elif retval == 'c' or retval == 'C':
+        elif chr(retval) == 'c' or chr(retval) == 'C':
          print('toggle capture')
-         is_capturing = !is_capturing
+         is_capturing = not is_capturing
         else:
           command = 'UNKNOWN'
           print('unknown command, key: ', retval, ' type: ', type(retval))
