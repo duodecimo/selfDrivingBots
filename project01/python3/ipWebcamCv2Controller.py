@@ -55,6 +55,7 @@ while True:
       # keep the rest in the bytes buffer
       bytes= bytes[b+2:]
       img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+      height, width = img.shape[1::-1]
         
       if is_capturing:
         elapsed_time = time.time() - start_time
@@ -68,9 +69,9 @@ while True:
           #restart the timer
           start_time = time.time()
         
-      cv2.putText(img, command, (200, 500), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+      cv2.putText(img, command, (height*0.8, width*0.1), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 0, 255), 2, cv2.LINE_AA)
       if is_capturing:
-        cv2.putText(img, 'Capturing', (600, 500), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+        cv2.putText(img, 'Capturing', (height*0.8, width*0.8), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 0, 0), 2, cv2.LINE_AA)
 
       cv2.imshow('img',img)
       retval = np.int16(cv2.waitKey(1))
