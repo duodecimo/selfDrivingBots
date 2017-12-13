@@ -2,6 +2,10 @@
 
 It is in a very early stage, not ready for explanations yet.
 
+In December, 12, 2017, a version of the project worked: I've been able to drive the robot around controlling it via keyboard.
+
+There is a (poor) youtube video available [here](https://youtu.be/QBWPm3e9MVI).
+
 The project01 folder got some files.
 
 A very quick description would be:
