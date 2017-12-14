@@ -12,7 +12,7 @@ def placeCall(cmd):
     x = urllib.request.urlopen(args.wu + cmd)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("iwu", help = 'ipWebcam URL, i.e. \'http://192.168.25.7:8080/video\'', nargs='?', default='http://192.168.58.34:8080/video')
+parser.add_argument("iwu", help = 'ipWebcam URL, i.e. \'http://192.168.25.7:8080/video\'', nargs='?', default='http://192.168.25.7:8080/video')
 parser.add_argument("wu", help = 'Wemos D1 esp8266 URL', nargs='?', default=None)
 parser.add_argument("path", help = 'path to store captured images', nargs='?', default='capture')
 args = parser.parse_args()
@@ -69,11 +69,14 @@ while True:
           #restart the timer
           start_time = time.time()
         
-      cv2.putText(img, command, (int(height*0.2), int(width*0.1)), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 0, 255), 2, cv2.LINE_AA)
+      cv2.putText(img, command, (int(width*0.1), int(height*0.05)), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
       if is_capturing:
-        cv2.putText(img, 'Capturing', (int(height*0.2), int(width*0.5)), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 0, 0), 2, cv2.LINE_AA)
+        cap = 'Capturing'
+      else:
+        cap = 'Not capturing'
+      cv2.putText(img, cap, (int(width*0.8), int(height*0.05)), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 0, 0), 2, cv2.LINE_AA)
 
-      cv2.imshow('img',img)
+      cv2.imshow('Self driving bot wifi controller',img)
       retval = np.int16(cv2.waitKey(1))
       if retval != -1:
         if retval ==27:
