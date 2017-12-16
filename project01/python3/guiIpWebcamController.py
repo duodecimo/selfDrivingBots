@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from PIL import Image, ImageTk
 import cv2
 import urllib.request
@@ -22,14 +23,21 @@ def convert(image):
   return image
 
 root = Tk()
+root.title("Robot Wifi Controller")
 root.minsize(width=800, height=700)
-Label(root, text="ip webcam URL", fg="blue").grid(row=0)
-Label(root, text="Wemos D1 URL", fg="blue").grid(row=1)
+
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+mainframe.columnconfigure(0, weight=1)
+mainframe.rowconfigure(0, weight=1)
+
+Label(mainframe, text="ip webcam URL", fg="blue").grid(row=0)
+Label(mainframe, text="Wemos D1 URL", fg="blue").grid(row=1)
 iwu = StringVar()
 wu = StringVar()
 iwu.set('http://192.168.25.7:8080/video')
-eiwu = Entry(root, textvariable = iwu).grid(row=0, column=1)
-ewu = Entry(root, textvariable = wu).grid(row=1, column=1)
+eiwu = Entry(mainframe, textvariable = iwu).grid(row=0, column=1, sticky=(W, E))
+ewu = Entry(mainframe, textvariable = wu).grid(row=1, column=1, sticky=(W, E))
 Button(root, text="Start", fg="blue", command='mainfunc').grid(row=2)
 Button(root, text="Exit", fg="red", command = '').grid(row=4)
 
