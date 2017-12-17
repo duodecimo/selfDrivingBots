@@ -12,7 +12,8 @@ import os
 
 
 def placeCall(cmd):
-  if wu.get() != None:
+  global wu
+  if 'http://' in wu.get():
     # must inform Wemos D1 esp8266 URL
     x = urllib.request.urlopen(wu.get() + cmd)
 
@@ -23,7 +24,6 @@ def convert(image):
   return image
 
 def mainfunc():
-
   print('Commands arrow keys:')
   print('up   -> Foward')
   print('down -> Back')
@@ -50,7 +50,6 @@ def mainfunc():
   if not os.access(path.get(), os.F_OK):
     os.makedirs(path.get())
   commands = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'STOP']
-  panel = None
 
   while True:
       _bytes += stream.read(1024)
@@ -86,52 +85,44 @@ def mainfunc():
 
         cv2.imshow('Self driving bot wifi controller',img)
 
-        image = convert(img)
-        # if the panel is not None, we need to initialize it
-        if panel is None:
-          panel = Label(mainframe, image=image)
-          panel.image = image
-          #pack.panel(side="left", padx=10, pady=10)
-          panel.grid(row=6, column=0, columnspan = 2)
-          # otherwise, simply update the panel
-        else:
-          panel.configure(image=image)
-          panel.image = image
+        #image = convert(img)
+        #panel.configure(image=image)
+        #panel.image = image
 
         retval = np.int16(cv2.waitKey(1))
         if retval != -1:
           if retval ==27:
             exit(0)
           elif retval == -174:
-           #print('FOWARD')
+           print('FOWARD')
            placeCall('FOWARD')
            command = 'FOWARD'
           elif retval == -172:
-           #print('BACK')
+           print('BACK')
            placeCall('BACK')
            command = 'BACK'
           elif retval == -175:
-           #print('LEFT')
+           print('LEFT')
            placeCall('LEFT')
            command = 'LEFT'
           elif retval == -173:
-           #print('RIGH')
+           print('RIGH')
            placeCall('RIGHT')
            command = 'RIGHT'
           elif chr(retval) == 's' or chr(retval) == 'S':
-           #print('STOP')
+           print('STOP')
            placeCall('STOP')
            command = 'STOP'
           elif chr(retval) == 'c' or chr(retval) == 'C':
-           #print('toggle capture')
+           print('toggle capture')
            is_capturing = not is_capturing
           else:
             command = 'UNKNOWN'
-            #print('unknown command, key: ', retval, ' type: ', type(retval))
+            print('unknown command, key: ', retval, ' type: ', type(retval))
 
 root = Tk()
 root.title("Robot Wifi Controller")
-root.minsize(width=800, height=700)
+root.minsize(width=800, height=300)
 default_font = font.nametofont("TkDefaultFont")
 default_font.configure(size=12, family='Liberation mono', weight='bold')
 
@@ -143,6 +134,9 @@ mainframe.rowconfigure(0, weight=1)
 Label(mainframe, text="ip webcam URL", fg="blue").grid(row=0)
 Label(mainframe, text="Wemos D1 URL", fg="blue").grid(row=1)
 Label(mainframe, text="Capture path", fg="blue").grid(row=2)
+#panel = Label(mainframe)
+#panel.grid(row=6, column=0, columnspan = 2)
+
 iwu = StringVar()
 wu = StringVar()
 path = StringVar()
