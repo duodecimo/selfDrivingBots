@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, font
 from PIL import Image, ImageTk
 import cv2
 import urllib.request
@@ -12,9 +12,9 @@ import os
 
 
 def placeCall(cmd):
-  if args.wu != None:
+  if wu.get() != None:
     # must inform Wemos D1 esp8266 URL
-    x = urllib.request.urlopen(args.wu + cmd)
+    x = urllib.request.urlopen(wu.get() + cmd)
 
 def convert(image):
   # Convert the Image object into a TkPhoto object
@@ -22,73 +22,46 @@ def convert(image):
   image = ImageTk.PhotoImage(image=image)
   return image
 
-root = Tk()
-root.title("Robot Wifi Controller")
-root.minsize(width=800, height=700)
-
-mainframe = ttk.Frame(root, padding="3 3 12 12")
-mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-mainframe.columnconfigure(0, weight=1)
-mainframe.rowconfigure(0, weight=1)
-
-Label(mainframe, text="ip webcam URL", fg="blue").grid(row=0)
-Label(mainframe, text="Wemos D1 URL", fg="blue").grid(row=1)
-iwu = StringVar()
-wu = StringVar()
-iwu.set('http://192.168.25.7:8080/video')
-eiwu = Entry(mainframe, textvariable = iwu).grid(row=0, column=1, sticky=(W, E))
-ewu = Entry(mainframe, textvariable = wu).grid(row=1, column=1, sticky=(W, E))
-Button(root, text="Start", fg="blue", command='mainfunc').grid(row=2)
-Button(root, text="Exit", fg="red", command = '').grid(row=4)
-
-root.mainloop()
-
-
-#parser = argparse.ArgumentParser()
-#parser.add_argument("iwu", help = 'ipWebcam URL, i.e. \'http://192.168.25.7:8080/video\'', nargs='?', default='http://192.168.25.7:8080/video')
-#parser.add_argument("wu", help = 'Wemos D1 esp8266 URL', nargs='?', default=None)
-#parser.add_argument("path", help = 'path to store captured images', nargs='?', default='capture')
-#args = parser.parse_args()
-
-#print('Commands arrow keys:')
-#print('up   -> Foward')
-#print('down -> Back')
-#print('left -> Left')
-#print('right-> Right')
-#print('other:')
-#print('s  -> stop')
-#print('c  -> toggle cature')
-#print('Esc-> exit')
-
 def mainfunc():
+
+  print('Commands arrow keys:')
+  print('up   -> Foward')
+  print('down -> Back')
+  print('left -> Left')
+  print('right-> Right')
+  print('other:')
+  print('s  -> stop')
+  print('c  -> toggle cature')
+  print('Esc-> exit')
 
   start_time = time.time()
 
   try:
-    stream=urllib.request.urlopen(iwu.get)
+    stream=urllib.request.urlopen(iwu.get())
   except:
-    print('Error opening ipWebcam URL: ', iwu.get)
+    print('Error opening ipWebcam URL: ', iwu.get())
     print('for help run with -h option')
     exit(1)
 
-  bytes = bytes()
+  _bytes = bytes()
   command = ''
   is_capturing = False
   #lets make sure the path exists!
-  if not os.access(wu.get(), os.F_OK):
-    os.makedirs(args.path)
+  if not os.access(path.get(), os.F_OK):
+    os.makedirs(path.get())
   commands = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'STOP']
+  panel = None
 
   while True:
-      bytes += stream.read(1024)
-      a = bytes.find(b'\xff\xd8')
-      b = bytes.find(b'\xff\xd9')
+      _bytes += stream.read(1024)
+      a = _bytes.find(b'\xff\xd8')
+      b = _bytes.find(b'\xff\xd9')
       # if there is at least one frame buffered
       if a!=-1 and b!=-1:
         # get the frame bytes to form an image
-        jpg = bytes[a:b+2]
+        jpg = _bytes[a:b+2]
         # keep the rest in the bytes buffer
-        bytes= bytes[b+2:]
+        _bytes= _bytes[b+2:]
         img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
         height, width = img.shape[1::-1]
           
@@ -116,10 +89,10 @@ def mainfunc():
         image = convert(img)
         # if the panel is not None, we need to initialize it
         if panel is None:
-          panel = tki.Label(image=image)
+          panel = Label(mainframe, image=image)
           panel.image = image
-          pack.panel(side="left", padx=10, pady=10)
-          panel.grid(row=3, column=0, columnspawn = 2)
+          #pack.panel(side="left", padx=10, pady=10)
+          panel.grid(row=6, column=0, columnspan = 2)
           # otherwise, simply update the panel
         else:
           panel.configure(image=image)
@@ -155,6 +128,44 @@ def mainfunc():
           else:
             command = 'UNKNOWN'
             #print('unknown command, key: ', retval, ' type: ', type(retval))
+
+root = Tk()
+root.title("Robot Wifi Controller")
+root.minsize(width=800, height=700)
+default_font = font.nametofont("TkDefaultFont")
+default_font.configure(size=12, family='Liberation mono', weight='bold')
+
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+mainframe.columnconfigure(0, weight=1)
+mainframe.rowconfigure(0, weight=1)
+
+Label(mainframe, text="ip webcam URL", fg="blue").grid(row=0)
+Label(mainframe, text="Wemos D1 URL", fg="blue").grid(row=1)
+Label(mainframe, text="Capture path", fg="blue").grid(row=2)
+iwu = StringVar()
+wu = StringVar()
+path = StringVar()
+iwu.set('http://192.168.25.7:8080/video')
+path.set('./capture')
+eiwu = Entry(mainframe, textvariable = iwu, width=50, font = default_font).grid(row=0, column=1, sticky=(W, E))
+ewu = Entry(mainframe, textvariable = wu, width = 50, font = default_font).grid(row=1, column=1, sticky=(W, E))
+epath = Entry(mainframe, textvariable = path, width = 50, font = default_font).grid(row=2, column=1, sticky=(W, E))
+Button(root, text="Start", fg="blue", command=mainfunc).grid(row=2)
+Button(root, text="Exit", fg="red", command = '').grid(row=5)
+
+
+root.mainloop()
+
+
+#parser = argparse.ArgumentParser()
+#parser.add_argument("iwu", help = 'ipWebcam URL, i.e. \'http://192.168.25.7:8080/video\'', nargs='?', default='http://192.168.25.7:8080/video')
+#parser.add_argument("wu", help = 'Wemos D1 esp8266 URL', nargs='?', default=None)
+#parser.add_argument("path", help = 'path to store captured images', nargs='?', default='capture')
+#args = parser.parse_args()
+
+
+
 
 
 
