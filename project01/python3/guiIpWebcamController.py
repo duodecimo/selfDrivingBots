@@ -79,7 +79,7 @@ def showloop():
         if elapsed_time > 1 and command in commands:
           timestamp = datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S_%f')[:-3]
           timestamp = timestamp + '_' + command + '.jpg'
-          image_filename = os.path.join(args.path, timestamp)
+          image_filename = os.path.join(path.get(), timestamp)
           # save the image
           cv2.imwrite(image_filename, img)
           #restart the timer
@@ -157,6 +157,7 @@ iwu = StringVar()
 wu = StringVar()
 path = StringVar()
 iwu.set('http://192.168.25.7:8080/video')
+wu.set("http://192.168.25.18/")
 path.set('./capture')
 eiwu = Entry(mainframe, textvariable = iwu, width=50, font = default_font)
 eiwu.grid(row=0, column=1, sticky=(W, E))

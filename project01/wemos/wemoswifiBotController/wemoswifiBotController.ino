@@ -31,8 +31,8 @@ int enB = D8;
 
 // definições de velocidade
 // obs.: oportunidade de igualar motores
-const int speedA = 312;
-const int speedB = 400;
+const int speedA = 512;
+const int speedB = 600;
 
 void setup()
 {
