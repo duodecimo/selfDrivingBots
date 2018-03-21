@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# by duo Dec 2017
 
 from tkinter import *
 from tkinter import ttk, font
