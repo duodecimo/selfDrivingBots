@@ -5,10 +5,10 @@ void foward();
 void back();
 void left();
 void right();
-void stop();
+void stopMove();
 
-const char* ssid = "PKVIR12AB";
-const char* password = "5852696300";
+const char* ssid = "GPRUSS";
+const char* password = "fastolff";
 int value;
  
 WiFiServer server(80);
@@ -31,8 +31,8 @@ int enB = D8;
 
 // definições de velocidade
 // obs.: oportunidade de igualar motores
-const int speedA = 512;
-const int speedB = 600;
+const int speedA = 900;
+const int speedB = 900;
 
 void setup()
 {
@@ -116,7 +116,7 @@ void loop() {
   }
   if (request.indexOf("/STOP") != -1){
     value = 4;
-    stop();
+    stopMove();
   }
  
  
@@ -165,8 +165,8 @@ void foward() {
   digitalWrite(IN2, LOW);
   //Gira o Motor B no sentido anti-horario
   analogWrite(enB, speedB);// PWM possible range 0~900
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
   delay(50);
 }
 
@@ -177,28 +177,28 @@ void back() {
   digitalWrite(IN2, HIGH);
   //Gira o Motor B no sentido horario
   analogWrite(enB, speedB);// PWM possible range 0~900
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
-  delay(50);
-}
-
-void right() {
-  //Gira o Motor A no sentido anti-horario
-  analogWrite(enA, speedA);// PWM possible range 0~900
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-  //Gira o Motor B no sentido anti-horario
-  analogWrite(enB, speedB);// PWM possible range 0~900
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   delay(50);
 }
 
 void left() {
-  //Gira o Motor A no sentido horario
+  //Gira o Motor A no sentido anti-horario
   analogWrite(enA, speedA);// PWM possible range 0~900
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
+  //Gira o Motor B no sentido anti-horario
+  analogWrite(enB, speedB);// PWM possible range 0~900
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, HIGH);
+  delay(50);
+}
+
+void right() {
+  //Gira o Motor A no sentido horario
+  analogWrite(enA, speedA);// PWM possible range 0~900
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, HIGH);
   //Gira o Motor B no sentido horario
   analogWrite(enB, speedB);// PWM possible range 0~900
   digitalWrite(IN3, HIGH);
@@ -206,7 +206,7 @@ void left() {
   delay(50);
 }
 
-void stop() {
+void stopMove() {
   //para o Motor A
   analogWrite(enA, speedA);// PWM possible range 0~900
   digitalWrite(IN1, HIGH);

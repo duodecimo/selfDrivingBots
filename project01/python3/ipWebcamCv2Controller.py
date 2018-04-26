@@ -12,7 +12,7 @@ def placeCall(cmd):
     x = urllib.request.urlopen(args.wu + cmd)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("iwu", help = 'ipWebcam URL, i.e. \'http://192.168.25.7:8080/video\'', nargs='?', default='http://192.168.25.7:8080/video')
+parser.add_argument("iwu", help = 'ipWebcam URL, i.e. \'http://192.168.25.7:8080/video\'', nargs='?', default='http://192.168.58.37:8080/video')
 parser.add_argument("wu", help = 'Wemos D1 esp8266 URL', nargs='?', default=None)
 parser.add_argument("path", help = 'path to store captured images', nargs='?', default='capture')
 args = parser.parse_args()
