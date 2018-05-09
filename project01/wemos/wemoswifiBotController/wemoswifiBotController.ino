@@ -31,8 +31,8 @@ int enB = D8;
 
 // definições de velocidade
 // obs.: oportunidade de igualar motores
-const int speedA = 900;
-const int speedB = 900;
+const int speedA = 1500;
+const int speedB = 1500;
 
 void setup()
 {
@@ -189,7 +189,7 @@ void left() {
   digitalWrite(IN2, LOW);
   //Gira o Motor B no sentido anti-horario
   analogWrite(enB, speedB);// PWM possible range 0~900
-  digitalWrite(IN3, HIGH);
+  digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   delay(50);
 }
@@ -197,7 +197,7 @@ void left() {
 void right() {
   //Gira o Motor A no sentido horario
   analogWrite(enA, speedA);// PWM possible range 0~900
-  digitalWrite(IN1, HIGH);
+  digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   //Gira o Motor B no sentido horario
   analogWrite(enB, speedB);// PWM possible range 0~900
