@@ -15,16 +15,15 @@ import sys
 
 np.random.seed(0)
 
-labels = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'STOP']
-
+commands = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'STOP']
 
 def load_images_from_path(path, images, results):
-    global labels
+    global commands
     for filename in os.listdir(path):
       img = os.path.join(path,filename)
-      for label in labels:
-        if label in img:
-          result = labels.index(label)
+      for command in commands:
+        if command in img:
+          result = commands.index(command)
       if img is not None:
         images.append(img)
         results.append(result)

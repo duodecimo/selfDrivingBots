@@ -6,8 +6,8 @@ from keras.utils import np_utils
 
 
 #IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 66, 200, 3
-#IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 480, 640, 3
-IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 120, 160, 3
+IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 480, 640, 3
+#IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 120, 160, 3
 INPUT_SHAPE = (IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS)
 
 
@@ -22,8 +22,9 @@ def load_image(image_file):
 def crop(image):
     """
     Crop the image (removing the sky at the top and the car front at the bottom)
+    form: image[y:y+h, x:x+w]
     """
-    return image[60:-25, :, :] # remove the sky and the car front
+    return image[300:, :, :] # remove the sky and the car front
 
 
 def resize(image):
@@ -44,7 +45,7 @@ def preprocess(image):
     """
     Combine all preprocess functions into one
     """
-    #image = crop(image)
+    image = crop(image)
     image = resize(image)
     image = rgb2yuv(image)
     return image
